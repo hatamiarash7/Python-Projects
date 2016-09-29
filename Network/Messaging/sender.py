@@ -1,6 +1,6 @@
 from socket import *
 
-HOST = '169.254.243.180'
+HOST = '192.168.1.101'
 PORT = 80
 Address = (HOST, PORT)
 UDPSocket = socket(AF_INET, SOCK_DGRAM)
