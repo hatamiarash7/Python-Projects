@@ -9,6 +9,6 @@ for i in xrange(ramp_frames):
  temp = get_image()
 print("Taking image...")
 camera_capture = get_image()
-file = "/home/hatamiarash7/OpenCV - Python/snapshot_temp/test_image.png" 
+file = "test_image.png" 
 cv2.imwrite(file, camera_capture)
 camera.release()

@@ -1,6 +1,6 @@
 import cv2
 camera_port = 1
-cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+cascade = cv2.CascadeClassifier('lib/haarcascade_frontalface_default.xml')
 img = cv2.VideoCapture(camera_port)
 while(True):
     _,frame=img.read()
