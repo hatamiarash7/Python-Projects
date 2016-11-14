@@ -1,10 +1,10 @@
 import os
 from socket import *
 
-HOST = ''
-PORT = 80
+HOST = '192.168.1.5'
+PORT = 12345
 Address = (HOST, PORT)
-BUFFER = 1024
+BUFFER = 20
 UDPSocket = socket(AF_INET, SOCK_DGRAM)
 UDPSocket.bind(Address)
 print "Wait For Message ..."
