@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
+import re
 from itertools import chain
-from lxml import etree
 
 from lxml.etree import tostring
 
@@ -8,18 +8,16 @@ import db as database
 import helper
 
 
-class Reader:
+class Parser:
     def __init__(self):
-        pass
+        self.is_check = False
 
-    @staticmethod
-    def read():
-        doc = etree.parse('reut2-001.sgm', etree.XMLParser(encoding='UTF-8', ns_clean=True, recover=True))
+    def parse(self, doc):
+        print "Reading News ... ",
         root = doc.getroot()
         reuters = root.getchildren()
         counter = 0
         news = []
-        print "Reading News ... ",
         for content in reuters:
             if content.get('TOPICS') == "YES":
                 counter += 1
@@ -41,9 +39,10 @@ class Reader:
                 for i in range(len(F)):
                     FINAL_TOPICS += F[i] + ','
                 FINAL_TOPICS = FINAL_TOPICS[:-1]
+                pattern = re.compile('(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+>')
                 news.append(helper.News(
                     ID,
-                    TITLE,
+                    pattern.sub('', TITLE).replace("  ", " ") if TITLE else TITLE,
                     BODY,
                     DATE_STRING.split()[0],
                     DATE_STRING.split()[1].split('.')[0],
@@ -51,25 +50,20 @@ class Reader:
                 ))
 
         print "OK !"
-        print "Check DB ... ",
         db = database.Database()
-        if not db.start():
-            print "ERROR !"
-        else:
+        print "Add To Database ... ",
+        cc = 0
+        for new in news:
+            cc += db.add(
+                new.get_id(),
+                new.get_title(),
+                new.get_body(),
+                new.get_date(),
+                new.get_time(),
+                new.get_topics()
+            )
+        if cc == 0:
             print "OK !"
-            print "Add To Database ... ",
-            cc = 0
-            for new in news:
-                cc += db.add(
-                    new.get_id(),
-                    new.get_title(),
-                    new.get_body(),
-                    new.get_date(),
-                    new.get_time(),
-                    new.get_topics()
-                )
-            if cc == 0:
-                print "OK !"
-            else:
-                print "ERROR !"
-            db.DB.close()
+        else:
+            print "ERROR !"
+        db.DB.close()

@@ -1,8 +1,12 @@
+import Tkinter as tk
+import threading
+import ttk
 from Tkinter import *
+from lxml import etree
 
 import db
 import notification
-import read as Reader
+import parse as parser
 import tkn
 
 
@@ -10,9 +14,14 @@ class Example(Frame):
     def __init__(self, **kw):
         Frame.__init__(self, **kw)
         self.initUI()
+        self.res = None
+        self.title = self.body = None
+        self.progress = 0
+        self.progress_var = tk.DoubleVar()
+        self.popup = self.progress_bar = None
 
     def initUI(self):
-        self.master.title("Checkbutton")
+        self.master.title("Reuters IR System")
         self.pack(fill=BOTH, expand=True)
 
         b = Button(self, text="Parse", width=8, command=self.onClick_Parse)
@@ -25,8 +34,72 @@ class Example(Frame):
         b.place(x=220, y=20)
 
     def onClick_Parse(self):
-        reader = Reader.Reader()
-        reader.read()
+        parse_thread = threading.Thread(target=self.threadParse)
+        parse_thread.start()
+
+        self.popup = tk.Toplevel()
+        self.popup.wm_attributes('-type', 'splash')
+        tk.Label(self.popup, text="Files being parsed ...").grid(row=0, column=0)
+        self.progress_bar = ttk.Progressbar(self.popup, variable=self.progress_var, maximum=100)
+        self.progress_bar.grid(row=1, column=0)
+        self.popup.pack_slaves()
+
+    def onClick_Load(self):
+        d = db.Database()
+        self.res = d.read()
+        if not self.res:
+            notification_manager = notification.Notification_Manager(background="white")
+            notification_manager.alert("ERROR !!")
+        else:
+            listbox = Listbox(self, width=40, height=27)
+            listbox.place(x=20, y=70)
+            listbox.bind('<<ListboxSelect>>', self.onClick_ListBox)
+            scrollbar = ttk.Scrollbar(self, orient=VERTICAL, command=listbox.yview)
+            scrollbar.pack(side="right", fill="y")
+            listbox.config(yscrollcommand=scrollbar.set)
+            for new in self.res:
+                listbox.insert(END, str(new.get_id()) + '|' + new.get_title())
+            self.title = Label(self, text="Select From List ...")
+            self.title.place(x=380, y=20)
+            self.body = Label(self, text="...")
+            self.body.place(x=380, y=60)
+
+    def onClick_Read(self):
+        pass
+
+    def onClick_ListBox(self, event):
+        widget = event.widget
+        index = int(widget.curselection()[0])
+        value = widget.get(index)
+        id = value.split('|')[0]
+        for new in self.res:
+            if id == str(new.get_id()):
+                self.title.config(text=new.get_title())
+                self.body.config(text=new.get_body())
+
+    def threadParse(self):
+        reader = parser.Parser()
+        d = db.Database()
+        print "Check Database ... ",
+        if d.start():
+            print "OK !"
+        else:
+            print "ERROR !"
+        for i in range(0, 22):
+            index = 'reut2-' + '{:03}'.format(i) + '.sgm'
+            print "Open File : " + index + " ... ",
+            try:
+                doc = etree.parse(index, etree.XMLParser(encoding='UTF-8', ns_clean=True, recover=True))
+                print "OK !"
+                reader.parse(doc)
+            except:
+                print "ERROR !"
+            print
+            self.popup.update()
+            self.progress += 4.54
+            self.progress_var.set(self.progress)
+        self.popup.destroy()
+        print('\a')
         tkn.notify(
             kws={
                 "title": "IR System",
@@ -38,30 +111,6 @@ class Example(Frame):
                 "alpha": 0.8
             }
         )
-
-    def onClick_Load(self):
-        d = db.Database()
-        res = d.read()
-        if not res:
-            notification_manager = notification.Notification_Manager(background="white")
-            notification_manager.alert("ERROR !!")
-        else:
-            listbox = Listbox(self, width=40, height=27)
-            listbox.place(x=20, y=70)
-            listbox.insert(END, "a list entry")
-            listbox.bind('<<ListboxSelect>>', self.onClick_ListBox)
-            for new in res:
-                listbox.insert(END, str(new.get_id()) + '|' + new.get_title())
-
-    def onClick_Read(self):
-        pass
-
-    def onClick_ListBox(self, event):
-        widget = event.widget
-        index = int(widget.curselection()[0])
-        value = widget.get(index)
-        id = value.split('|')[0]
-        print id
 
 
 def main():
