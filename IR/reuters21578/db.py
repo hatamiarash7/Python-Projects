@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 import warnings
 
 import MySQLdb
@@ -25,6 +26,15 @@ class Database:
                      TOPICS TEXT
                      )"""
             cursor.execute(sql)
+
+            cursor.execute("DROP TABLE IF EXISTS TOKENS")
+            sql = """CREATE TABLE IF NOT EXISTS TOKENS (
+                                 ID  INT PRIMARY KEY NOT NULL,
+                                 TOKEN  TEXT,
+                                 TF INT,
+                                 DF INT
+                                 )"""
+            cursor.execute(sql)
             db.close()
         except Warning as a_warning:
             pass
@@ -48,7 +58,10 @@ class Database:
         else:
             return 0
 
-    def read(self):
+    def add_token(self, list):
+
+    @staticmethod
+    def read():
         db = MySQLdb.connect("localhost", "ir_system", "ir1234", "ir_system")
         cursor = db.cursor()
         sql = """SELECT * FROM NEWS"""

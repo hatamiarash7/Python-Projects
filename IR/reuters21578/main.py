@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 import Tkinter as tk
 import threading
 import ttk
@@ -7,6 +8,7 @@ from lxml import etree
 import db
 import notification
 import parse as parser
+import process as Processor
 import tkn
 
 
@@ -30,7 +32,7 @@ class Example(Frame):
         b = Button(self, text="Load", width=8, command=self.onClick_Load)
         b.place(x=120, y=20)
 
-        b = Button(self, text="Read", width=8, command=self.onClick_Read)
+        b = Button(self, text="Process", width=8, command=self.onClick_Process)
         b.place(x=220, y=20)
 
     def onClick_Parse(self):
@@ -64,8 +66,12 @@ class Example(Frame):
             self.body = Label(self, text="...")
             self.body.place(x=380, y=60)
 
-    def onClick_Read(self):
-        pass
+    def onClick_Process(self):
+        process = Processor.Process()
+        process.tokenize(self.res)
+        process.remove_stopwords()
+        process.stemming()
+        print str(process.get_stemmed()[250].get_id()) + ":" + process.get_stemmed()[250].get_token()
 
     def onClick_ListBox(self, event):
         widget = event.widget
