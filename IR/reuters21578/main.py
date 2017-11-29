@@ -71,7 +71,9 @@ class Example(Frame):
         process.tokenize(self.res)
         process.remove_stopwords()
         process.stemming()
-        print str(process.get_stemmed()[250].get_id()) + ":" + process.get_stemmed()[250].get_token()
+        d = db.Database()
+        print "Add Tokens ..."
+        d.add_token(process.get_stemmed())
 
     def onClick_ListBox(self, event):
         widget = event.widget

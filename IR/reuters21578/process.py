@@ -13,7 +13,7 @@ class Process:
         self.stemmed = []
 
     def tokenize(self, news):
-        print "Tokenize ... ",
+        print "Tokenize ... "
         self.news = news
         for topic in news:
             titles = topic.get_title().split()
@@ -22,23 +22,20 @@ class Process:
             bodies = topic.get_body().split()
             for body in bodies:
                 self.bodies.append(helper.Token(topic.get_id(), body.lower()))
-        print "Done !"
 
     def remove_stopwords(self):
-        print "Remove StopWords ... ",
+        print "Remove StopWords ... "
         self.stopwords = self.stop_words()
         self.res_titles = [token for token in self.titles if token.get_token() not in self.stopwords]
         self.res_bodies = [token for token in self.bodies if token.get_token() not in self.stopwords]
-        print "Done !"
 
     def stemming(self):
-        print "Stemming ... ",
+        print "Stemming ... "
         ps = PorterStemmer()
         for token in self.res_titles:
             self.stemmed.append(helper.Token(token.get_id(), ps.stem(token.get_token())))
         for token in self.res_bodies:
             self.stemmed.append(helper.Token(token.get_id(), ps.stem(token.get_token())))
-        print "Done !"
 
     @staticmethod
     def stop_words():
