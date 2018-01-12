@@ -65,7 +65,7 @@ class Database:
             return 0
 
     def add_token(self, tokens):
-        add_thread = threading.Thread(target=self.threadAddToken, args=(tokens,))
+        add_thread = threading.Thread(target=self.threadAddManyToken, args=(tokens,))
         add_thread.start()
 
         self.popup = tk.Toplevel()
@@ -77,7 +77,7 @@ class Database:
 
     @staticmethod
     def read():
-        db = MySQLdb.connect("localhost", "ir_system", "ir1234", "ir_system")
+        db = MySQLdb.connect("127.0.0.1", "ir_system", "ir1234", "ir_system")
         cursor = db.cursor()
         sql = """SELECT * FROM NEWS"""
         try:
@@ -132,3 +132,24 @@ class Database:
         self.popup.destroy()
         self.DB.close()
         return i
+
+    def threadAddManyToken(self, tokens):
+        cursor = self.DB.cursor()
+        # sql = "SET GLOBAL max_allowed_packet=600*1024*1024"
+        # cursor.execute(sql)
+        i = 0
+        try:
+            params = [(str(item.get_id()), item.get_token().replace("'", "''")) for item in tokens if
+                      len(item.get_token().replace("'", "''")) < 20]
+            sql = """INSERT INTO TOKENS(DID, TOKEN) VALUES (%s, %s);"""
+            cursor.executemany(sql, params)
+            self.DB.commit()
+            print "\a"
+        except MySQLdb.Error, e:
+            print "Error : ",
+            print e
+            self.DB.rollback()
+            i += 1
+        self.popup.destroy()
+        self.DB.close()
+        return

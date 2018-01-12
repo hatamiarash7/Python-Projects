@@ -2,6 +2,8 @@
 from nltk.stem import PorterStemmer
 
 import helper
+import logging
+import time
 
 
 class Process:
@@ -13,6 +15,7 @@ class Process:
         self.stemmed = []
 
     def tokenize(self, news):
+        logging.info("Tokenizing ...")
         print "Tokenize ... "
         self.news = news
         for topic in news:
@@ -24,7 +27,7 @@ class Process:
                 self.bodies.append(helper.Token(topic.get_id(), body.lower()))
 
     def remove_stopwords(self):
-        print "Remove StopWords ... "
+        print "StopWords ... "
         self.stopwords = self.stop_words()
         self.res_titles = [token for token in self.titles if token.get_token() not in self.stopwords]
         self.res_bodies = [token for token in self.bodies if token.get_token() not in self.stopwords]

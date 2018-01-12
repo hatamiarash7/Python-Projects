@@ -27,9 +27,11 @@ class News(object):
 
 
 class Token(object):
-    def __init__(self, id, token):
+    def __init__(self, id, token, tf=None, df=None):
         self.id = id
         self.token = token
+        self.tf = 0 if tf is None else tf
+        self.df = 0 if df is None else df
 
     def get_id(self):
         return self.id

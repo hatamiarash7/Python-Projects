@@ -18,5 +18,68 @@
     <schema id="12" parent="1" name="sogo"/>
     <schema id="13" parent="1" name="sys"/>
     <schema id="14" parent="1" name="vmail"/>
+    <schema id="15" parent="1" name="chat"/>
+    <schema id="16" parent="1" name="chatbot"/>
+    <table id="17" parent="2" name="NEWS"/>
+    <table id="18" parent="2" name="TOKENS"/>
+    <column id="19" parent="17" name="ID">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="17" name="TITLE">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="21" parent="17" name="BODY">
+      <Position>3</Position>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="22" parent="17" name="DATE">
+      <Position>4</Position>
+      <DataType>varchar(11)|0</DataType>
+    </column>
+    <column id="23" parent="17" name="TIME">
+      <Position>5</Position>
+      <DataType>varchar(8)|0</DataType>
+    </column>
+    <column id="24" parent="17" name="TOPICS">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <key id="25" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="26" parent="18" name="ID">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="27" parent="18" name="DID">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="28" parent="18" name="TOKEN">
+      <Position>3</Position>
+      <DataType>varchar(25)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="29" parent="18" name="TF">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="30" parent="18" name="DF">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <key id="31" parent="18" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
   </database-model>
 </dataSource>

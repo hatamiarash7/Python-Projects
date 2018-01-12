@@ -1,0 +1,67 @@
+2018-01-13 01:36:05,080 - INFO - Current time: Sat Jan 13 01:36:05 2018
+2018-01-13 01:36:07,083 - INFO - Current time: Sat Jan 13 01:36:07 2018
+2018-01-13 01:36:09,086 - INFO - Current time: Sat Jan 13 01:36:09 2018
+2018-01-13 01:36:11,089 - INFO - Current time: Sat Jan 13 01:36:11 2018
+2018-01-13 01:39:54,705 - INFO - debug message
+2018-01-13 01:40:31,721 - INFO - debug message
+2018-01-13 01:42:59,152 - INFO - debug message
+2018-01-13 01:43:33,694 - INFO - debug message
+2018-01-13 01:43:48,960 - INFO - debug message
+2018-01-13 01:44:58,798 - INFO - debug message
+2018-01-13 01:45:36,089 - INFO - debug message
+2018-01-13 01:45:41,960 - INFO - debug message
+2018-01-13 01:45:42,715 - INFO - debug message
+2018-01-13 01:45:43,350 - INFO - debug message
+2018-01-13 01:45:53,495 - INFO - debug message
+2018-01-13 01:46:33,761 - INFO - debug message
+2018-01-13 01:47:05,106 - INFO - debug message
+2018-01-13 01:47:05,106 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,107 - INFO - debug message
+2018-01-13 01:47:05,108 - INFO - debug message
+2018-01-13 01:47:05,108 - INFO - debug message
+2018-01-13 01:47:54,134 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,135 - INFO - debug message
+2018-01-13 01:47:54,136 - INFO - debug message
+2018-01-13 01:47:54,136 - INFO - debug message
+2018-01-13 01:47:54,136 - INFO - debug message
+2018-01-13 01:47:54,136 - INFO - debug message
+2018-01-13 01:48:00,004 - INFO - debug message
+2018-01-13 01:48:00,005 - INFO - debug message
+2018-01-13 01:48:00,005 - INFO - debug message
+2018-01-13 01:48:00,005 - INFO - debug message
+2018-01-13 01:48:00,005 - INFO - debug message
+2018-01-13 01:48:00,005 - INFO - debug message
+2018-01-13 01:48:00,005 - INFO - debug message
+2018-01-13 01:48:00,006 - INFO - debug message
+2018-01-13 01:48:00,006 - INFO - debug message
+2018-01-13 01:48:00,006 - INFO - debug message
+2018-01-13 01:48:00,006 - INFO - debug message
+2018-01-13 01:48:00,006 - INFO - debug message
+2018-01-13 01:51:18,111 - INFO - Load News ...
+2018-01-13 01:51:20,239 - INFO - Tokenizing ...
+2018-01-13 01:51:24,801 - INFO - Remove StopWords ...
+2018-01-13 01:51:39,555 - INFO - Stemming ...
+2018-01-13 01:52:31,875 - INFO - Add Tokens To DB ...
+2018-01-13 01:53:41,639 - INFO - Load News ...
+2018-01-13 01:53:42,559 - INFO - Tokenizing ...
+2018-01-13 01:53:47,052 - INFO - Remove StopWords ...
+2018-01-13 01:54:01,793 - INFO - Stemming ...
+2018-01-13 01:54:01,794 - INFO - Add Tokens To DB ...
+2018-01-13 01:57:35,087 - INFO - Load News ...
+2018-01-13 01:57:36,246 - INFO - Tokenizing ...
+2018-01-13 01:57:41,302 - INFO - Remove StopWords ...
+2018-01-13 01:57:56,007 - INFO - Stemming ...
+2018-01-13 01:57:56,008 - INFO - Add Tokens To DB ...
