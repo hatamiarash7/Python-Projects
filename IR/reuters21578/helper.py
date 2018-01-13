@@ -38,3 +38,15 @@ class Token(object):
 
     def get_token(self):
         return self.token
+
+    def get_tf(self):
+        return self.tf
+
+    def get_df(self):
+        return self.df
+
+    def set_tf(self, value):
+        pass
+
+    def set_df(self, value):
+        self.df = value
