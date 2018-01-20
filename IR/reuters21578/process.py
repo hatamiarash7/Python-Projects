@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*
 import logging
 
+import toolz
 from nltk.stem import PorterStemmer
 
 import helper
@@ -17,7 +18,7 @@ class Process:
 
     def tokenize(self, news):
         logging.info("Tokenizing ...")
-        print "Tokenize ... "
+        print "Tokenize ...\a"
         self.news = news
         for topic in news:
             titles = topic.get_title().split()
@@ -39,13 +40,13 @@ class Process:
         '''
 
     def remove_stopwords(self):
-        print "StopWords ... "
+        print "StopWords ...\a"
         self.stopwords = self.stop_words()
         self.res_titles = [token for token in self.titles if token.get_token() not in self.stopwords]
         self.res_bodies = [token for token in self.bodies if token.get_token() not in self.stopwords]
 
     def stemming(self):
-        print "Stemming ... "
+        print "Stemming ...\a"
         ps = PorterStemmer()
         for token in self.res_titles:
             self.stemmed.append(helper.Token(token.get_id(), ps.stem(token.get_token())))
@@ -61,31 +62,41 @@ class Process:
     def get_stemmed(self):
         return self.stemmed
 
-    def document_frequency(self):
+    def frequency(self):
         self.merged = self.titles + self.bodies
         '''
+        print "merge : " + str(len(self.merged))
+        print "merge : " + str(sum(1 for _ in unique_words))
+        print "news : " + str(len(self.news))
+        
         len(merged) = 1,589,828
+        len(unique) = 73,528
         len(news) = 11,097
         '''
+        unique_words = toolz.unique(self.merged, key=lambda word: word.token)
+
+        DF = open('DF.txt', 'wb')
+        TF = open('TF.txt', 'wb')
+        CF = open('CF.txt', 'wb')
+        DF.write("{: >15} {: >20} {: >15}\n\n".format('ID', 'TOKEN', 'DF'))
+        TF.write("{: >15} {: >20} {: >15}\n\n".format('ID', 'TOKEN', 'TF per DF'))
+        CF.write("{: >15} {: >20} {: >15}\n\n".format('ID', 'TOKEN', 'CF'))
+
         i = 0
-        for token in self.merged:
+        for token in unique_words:
+            tf_list = ""
             i += 1
             frequency = 0
             for topic in self.news:
                 temp = topic.get_title().split() + topic.get_body().split()
-                if temp.count(token.get_token()) > 0:
+                count = temp.count(token.get_token())
+                if count > 0:
                     frequency += 1
-            token.set_df(frequency)
-            row = [str(i), token.get_token(), str(token.get_df())]
-            print("{: >20} {: >20} {: >20}".format(*row))
-
-            # for token in self.merged:
-            #     docs = []
-            #     if token.get_token() not in self.stopwords:
-            #         for topic in self.news:
-            #             temp = topic.get_title().split() + topic.get_body().split()
-            #             # if temp.count(token.get_token()) > 0 and token.get_id() not in docs:
-            #             if temp.count(token.get_token()) > 0 :
-            #                 docs.append(str(token.get_id()))
-            #         token.set_df(len(docs))
-            #         print token.get_token() + " | " + str(token.get_df()) + " | " + str(docs)
+                    token.inc_tf_by(count)
+                    tf_list += str(topic.get_id()) + ':' + str(count) + ' '
+            if frequency != 0:
+                token.set_df(frequency)
+                print str(i)
+                DF.write("{: >15} {: >20} {: >15}\n".format(str(i), token.get_token(), str(token.get_df())))
+                TF.write("{: >15} {: >20}          {}\n".format(str(i), token.get_token(), tf_list))
+                CF.write("{: >15} {: >20} {: >15}\n".format(str(i), token.get_token(), str(token.get_tf())))

@@ -115,16 +115,15 @@ class Example(Frame):
         process.tokenize(self.res)
         logging.info("Remove StopWords ...")
         process.remove_stopwords()
-        # logging.info("Stemming ...")
-        # process.stemming()
-        # print "\a"
-        # stemmed = process.get_stemmed()
-        # logging.info("Add Tokens To DB ...")
+        logging.info("Stemming ...")
+        process.stemming()
+        stemmed = process.get_stemmed()
+        logging.info("Add Tokens To DB ...")
         # print "Add Tokens ..."
         # d = db.Database()
         # d.add_token(stemmed)
-        print "DF"
-        process.document_frequency()
+        print "Calculate Frequencies ... \a"
+        process.frequency()
 
 
     def onClick_ListBox(self, event):

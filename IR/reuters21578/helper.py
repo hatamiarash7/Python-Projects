@@ -50,3 +50,15 @@ class Token(object):
 
     def set_df(self, value):
         self.df = value
+
+    def inc_df(self):
+        self.df += 1
+
+    def inc_df_by(self, value):
+        self.df += value
+
+    def inc_tf(self):
+        self.tf += 1
+
+    def inc_tf_by(self, value):
+        self.tf += value

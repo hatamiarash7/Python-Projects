@@ -34,7 +34,7 @@ class Database:
             cursor.execute(sql)
             cursor.execute("DROP TABLE IF EXISTS TOKENS")
             sql = """CREATE TABLE IF NOT EXISTS TOKENS (
-                                 ID INT PRIMARY KEY NOT NULL ,
+                                 ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                                  DID INT NOT NULL,
                                  TOKEN VARCHAR(25) NOT NULL,
                                  TF INT NULL,
