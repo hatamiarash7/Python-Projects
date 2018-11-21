@@ -70,6 +70,6 @@ if __name__ == "__main__":
             # see http://trac.secdev.org/scapy/ticket/537
             logger.warn("skipping %s because scapy currently doesn't support arping on non-primary network interfaces", net)
             continue
-
+			
         if net:
 			scan_and_print_neighbors(net, interface)
