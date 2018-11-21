@@ -1,12 +1,13 @@
-from socket import *
+import socket
 
-HOST = '192.168.1.101'
-PORT = 80
+HOST = '192.168.1.112'
+PORT = 4210
 Address = (HOST, PORT)
-UDPSocket = socket(AF_INET, SOCK_DGRAM)
+UDPSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+UDPSocket.connect((HOST,PORT))
 while True:
-    Message = raw_input("Enter Message : ")
-    UDPSocket.sendto(Message, Address)
+    Message = input("Enter Message : ")
+    UDPSocket.send(Message.encode())
     if Message == "exit":
         break
 UDPSocket.close()
