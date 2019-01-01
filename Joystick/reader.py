@@ -1,7 +1,11 @@
 import pygame
+import serial
 
+usb = serial.Serial('COM3', 9600, timeout=None, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
+                    bytesize=serial.EIGHTBITS)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+command = ""
 
 
 class TextPrint:
@@ -68,6 +72,8 @@ while done is False:
         for j in range(axes):
             axis = joystick.get_axis(j)
             textPrint.print(screen, "Axis {} value: {:>6.3f}".format(j, axis))
+            command = "Axis {} value: {:>6.3f}\n".format(j, axis)
+            usb.write(command.encode())
 
         textPrint.un_indent()
         buttons = joystick.get_numbuttons()
@@ -77,6 +83,9 @@ while done is False:
         for k in range(buttons):
             button = joystick.get_button(k)
             textPrint.print(screen, "Button {:>2} value: {}".format(k, button))
+            if button == 1:
+                command = "Button {}\n".format(k)
+                usb.write(command.encode())
 
         textPrint.un_indent()
         hats = joystick.get_numhats()
