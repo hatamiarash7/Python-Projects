@@ -1,0 +1,3 @@
+[submodule "Network/DDOS/Zenith"]
+	path = Network/DDOS/Zenith
+	url = https://github.com/alifzl/Zenith
