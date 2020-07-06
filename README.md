@@ -1,2 +1,2 @@
 # Python-Projects
-Experimental python projects by me. You will see everyone in a seprate repository soon ... :)
+Experimental python projects by me. You will see eachone in a seprate repository soon ... :)
